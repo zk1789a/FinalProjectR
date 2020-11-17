@@ -1,0 +1,17 @@
+---
+title: "COVID-19"
+output: html_document
+---
+
+> Project Members: Mamayaa Opoku, Yoshimune Satake, Zeyd Khalil
+
+# Introduction
+
+> Hello and welcome to our project. Our topic is the data analysis of COVID-19 trends and studying responses of governments from different countries. 
+
+> The main problem with the spread of COVID-19 is that the world simply wasn't ready for such a pandemic. This is what has caused lockdowns, delays, businesses to shutdown, economic crashes, and a lot of pressure on hospitals. 
+
+> The main question we intend on answer is the following: If another pandemic were to occur in the future, what steps should governments take in order to prevent the spread of the virus, based on the current data? Could we have done better for dealing COVID-19? 
+
+
+
