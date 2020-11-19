@@ -15,4 +15,26 @@ output: html_document
 
 # Tidy the data 
 
-# We studied 9 different countries for this data. 
+# We studied 9 different countries for this data: 
+
+1. Italy
+2. China
+3. USA
+4. Iran
+5. New Zealand
+6. UAE
+7. Japan
+8. Ghana
+9. Brazil
+
+```{r}
+covid_stats <- 
+  covid_stats %>% 
+  filter(location == "Italy" | location == "United States" | location == "New Zealand" | 
+         location == "Ghana" | location == "United Arab Emirates" | location == "Brazil" | 
+         location == "Japan" | location == "Brazil" | location == "Iran")
+```
+
+
+
+
