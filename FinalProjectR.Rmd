@@ -13,5 +13,6 @@ output: html_document
 
 > The main question we intend on answer is the following: If another pandemic were to occur in the future, what steps should governments take in order to prevent the spread of the virus, based on the current data? Could we have done better for dealing COVID-19? 
 
+# Tidy the data 
 
-
+# We studied 9 different countries for this data. 
