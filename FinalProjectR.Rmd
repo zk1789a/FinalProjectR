@@ -1,5 +1,5 @@
 ---
-title: "COVID-19"
+title: "The world needs bettwe coordination to deal with pandemics"
 output:
   pdf_document: default
   html_document: default
@@ -13,32 +13,33 @@ library(tidyverse)
 
 # Introduction 
 
-> **Coordinated response** on a global scale is essential to facing this pandemic and any other pandemic to come in the future. Our data analysis of COVID-19 shows, with no doubt, that a coordinated response would have yielded **a much more positive outcome** for the entire world by now. 
+> A **Coordinated response** on a global scale is essential to facing this pandemic and any other pandemic to come in the future. Our data analysis of COVID-19 shows, with reasonable confidence, that the world with a coordinated response would have dealth mcuh bettwe with COVID-19 by now.
 
 # Abstract
 
-> In December 2019, the world was hit by a global pandemic known as COVID-19, which stands for Corona Virus Disease 2019. As of today, over 1.5 million people around the world lost their lives, 250,000 of which where Americans. A lot of people also lost their jobs as economies started to suffer, and schools and universities were left shutdown, leaving students feel isolated from their friends and normal life. 
+> In December 2019, the world was hit by a global pandemic known as **COVID-19**, which stands for Corona Virus Disease 2019. As of today, over **1.5 million people around the world lost their lives**, 250,000 of which where Americans. A lot of people also lost their jobs as economies started to suffer, and schools and universities were left shutdown, leaving students feel isolated from their friends and normal life. 
 
-> Some countries suffered more than others from COVID-19, and some countries appeared to have little or no impact from this pandemic. The ones that suffered had a stricter measures such as nationwide lockdowns, mass testing, and early measures. The countries that suffered more appeared to have followed different measures. There was no coordinated response, which is what resulted in mass lockdowns, and economies to shutdown. 
+> Some countries suffered more than others from COVID-19, and some countries appeared to have little or no impact from this pandemic. The ones that suffered had a **stricter measures** such as nationwide lockdowns, mass testing, and early measures. The countries that suffered more appeared to have followed different measures. 
 
-> Looking at this situation, we wanted to evaluate what the outcome would have been, had we globally acted in a coordinated fashion. For that, we selected a group of "reference" countries where the case and death rates are low. These countries include New Zealand, China, Japan, the UAE, and South Korea. What if we applied the measures taken in these countries onto the rest of the world? Examples of those measures include early action, increased testing, and restrictions on movement. 
+> There was no coordinated response, which is what resulted in mass lockdowns, and economies to shutdown. 
 
-> Applying those strict measures onto the rest of world, we saw astonishing results, which included lower cases and deaths rates. Our analysis showed us that we could have saved _x_ people. We therefore see the need for immediate plan to be ready for a coordinated plan for the future. 
+> Looking at this situation, we wanted to evaluate what the outcome would have been, had we globally acted in a coordinated fashion. 
 
-# Tidy the data
+> For that, we selected a group of "reference" countries where the case and death rates are low. These countries include New Zealand, China, Japan and South Korea. **What if we applied the measures taken in these countries onto badly affected countries?** 
 
-## We studied 10 different countries for this data: 
+> Applying those strict measures onto the rest of world, we saw astonishing results, which included lower cases and deaths rates. 
 
-1. Italy
-2. China
-3. USA
-4. Iran
-5. New Zealand
-6. UAE
-7. Japan
-8. Ghana
-9. Brazil
-10. South Korea
+> Our analysis showed us that we could have saved _x_ people. We therefore see the need for immediate plan to be ready for a coordinated plan for the future. 
+
+# We studied 7 different countries for this project: 
+
+1. China
+2. USA
+3. Iran
+4. New Zealand
+5. Japan
+6. Brazil
+7. South Korea
 
 ```{r, warning=FALSE, message=FALSE}
 covid_stats <- read_csv("/Users/zkhalil.19/Desktop/owid-covid-data-actual.csv")
@@ -47,19 +48,13 @@ covid_stats <- read_csv("/Users/zkhalil.19/Desktop/owid-covid-data-actual.csv")
 ```{r}
 covid_stats_ty <- 
   covid_stats %>% 
-  filter(location == "Italy"
-         | location == "United States"
+  filter(location == "United States"
          | location == "New Zealand"
-         | location == "Ghana"
-         | location == "United Arab Emirates"
          | location == "Brazil"
          | location == "Japan"
          | location == "Iran"
          | location == "South Korea"
-         | location == "China") 
-
-covid_stats_ty <- 
-  covid_stats_ty %>% 
+         | location == "China") %>% 
   select(location, continent, 
          date, total_cases, 
          new_cases, total_deaths, 
@@ -74,41 +69,30 @@ covid_stats_ty <-
 
 # What makes a country have a "good" response? 
 
+> We based our analysis on the following metrics: 
+
 * Early shutdown date, within a week from March 15, which was the day COVID-19 was declared a global pandemic 
-* Imposed restrictions
-* What the numbers look like today
+* Imposed restrictions - mandatory mask laws, total lockdown, contact tracing. 
+* What the numbers look like today - death rate and new cases rate. 
 
-## Now that we've tidyed our data, let's take a look at some of the countries that currently seem to have a very low infection rate. {4}
+## Let's take a look at some of the countries that meet those metrics: 
 
-> New Zealand
-> China
-> Japan
-> South Korea
-> UAE
+* New Zealand 
+* China
+* Japan
+* South Korea
 
-> According to the an article on the National News, South Korea, China, Japan, New Zealand and the UAE were ranked 3rd, 5th, 6th, 9th, and 18th (respectively) in the top 20 countries safest countries in the world from COVID-19. 
+> According to the National News (https://www.thenationalnews.com/uae/health/coronavirus-uae-ranks-high-for-covid-19-response-in-global-league-table-1.1032167), South Korea, China, Japan and New Zealand were ranked 3rd, 5th, 6th and 9th (respectively) in the top 20 countries safest countries in the world from COVID-19. 
 
-# New Zealand 
+## New Zealand 
 
 #### This information can be found in the following website: https://www.contagionlive.com/view/how-did-new-zealand-control-covid19  
 
-> New Zealand is a decently isolated island nation in the South Pacific, comprised of a little under 5 million people, which is about the same population as the state of Alabama. This small country has become an emblematic champion of proper prevention and response to COVID-19. 
-
-> New Zealand only saw under 2,000 total cases since February 26, which was the day the country saw its first case. A countrywide lockdown was imposed exactly a month later, on March 26, after having seen that there was a lack of testing and contact-tracing capability. The lockdown included a stay-at-home order, and unless it was for essential purposes, nobody was allowed out of their homes. 
-
-> After 5 weeks, New Zealand started seeing its new cases rate decline rapidly, which resulted them moving from Alert 4 to Alert 3, which are ways to measure how critical their measures need to be, given the numbers. The country only imposed an extra 2 weeks of lockdown after that. 
-
-> In early May, the last observed COVID-19 case was identified in New Zealand. The patient was isolated, and eventually recovered. By June 8, 103 days after their first case, they had moved to Alert 1 and declared the pandemic over in the country. 
-
-> I am now going to filter our tidyed covid data into the New Zealand rows.
-
-#### Our reference day is January 22.
+> New Zealand is an isolated island nation in the South Pacific, comprised of a little under 5 million people, which is about the same population as the state of Alabama. This small country has become an emblematic champion of proper prevention and response to COVID-19. 
 
 ```{r}
 newzealand <- covid_stats_ty %>% filter(country == "New Zealand")
-```  
-
-> Now, let's look at some visualizations. 
+``` 
 
 ```{r, warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -116,11 +100,23 @@ library(ggplot2)
 newzealand %>% ggplot(mapping = aes(date, total_cases)) + geom_line()
 
 ggplot(newzealand, aes(x = date, y = new_cases)) + geom_bar(stat = "identity") 
-```  
+
+newzealand %>% ggplot(mapping = aes(date, total_deaths)) + geom_line()
+
+ggplot(newzealand, aes(x = date, y = new_deaths)) + geom_bar(stat = "identity")
+``` 
 
 > The first visualization shows us the total cases count in the country from the start of the pandemic. There seems to have been a sharp rise in the total cases count in March and April, but after that, the cases started to rise at a much lower rate, hence, the curve looks flatter. 
 
-> The second visualization shows us that the months that saw the highest spike in new cases per day tended to be in March and April as well .
+> The second visualization shows us that the months that saw the highest spike in new cases per day tended to be in March and April as well.
+
+> The third and fourth visualizations use the same metrics for the recorded COVID-19 deaths in New Zealand. It shows that only 25 people died. 
+
+> New Zealand only saw a little over 2,000 total cases since February 26, which was the day the country saw its first case. A countrywide lockdown was imposed exactly a month later, on March 26, after having seen that there was a lack of testing and contact-tracing capability. The lockdown included a stay-at-home order, and unless it was for essential purposes, nobody was allowed out of their homes. 
+
+> After 5 weeks, New Zealand started seeing its new cases rate decline rapidly, which resulted them moving from Alert 4 to Alert 3, which are ways to measure how critical their measures need to be, given the numbers. The country only imposed an extra 2 weeks of lockdown after that. 
+
+> In early May, the last observed COVID-19 case was identified in New Zealand. The patient was isolated, and eventually recovered. By June 8, 103 days after their first case, they had moved to Alert 1 and declared the pandemic over in the country. 
 
 ```{r}
 newzealand %>% filter(new_cases == max(new_cases, na.rm = TRUE))
@@ -128,27 +124,53 @@ newzealand %>% filter(new_cases == max(new_cases, na.rm = TRUE))
 
 > This shows the specific date where New Zealand saw the highest number of new cases in a day, which was March 31st, and that number is 95, which, compared to other countries, is extremely low. 
 
---------------------------------------
+> As previously mentioned, New Zealand imposed a nationwide lockdown on the 26th of March, and only saw a rise during the first 5 days of the lockdown, before the infection rate started decreasing. 
 
-# China 
+> It is important to note that the infection rate kept on decreasing consistently because the people abided by the rules and stayed in their homes. 
+
+--------------------------------------------------------------------------------------
+
+## China 
+
+#### This information can be found in https://www.usatoday.com/story/news/world/2020/04/01/coronavirus-covid-19-china-radical-measures-lockdowns-mass-quarantines/2938374001/  
+
+> China is, without a doubt, where COVID-19 originated. 
+
+> The thing that shocked the rest of the world the most is that China was able to flatten its COVID-19 curve before other countries even started to get badly affected. 
 
 ```{r}
 china <- covid_stats_ty %>% filter(country == "China")
 ```
 
-# UAE 
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+china %>% ggplot(mapping = aes(date, total_cases)) + geom_line()
+
+ggplot(china, aes(x = date, y = new_cases)) + geom_bar(stat = "identity") 
+
+china %>% filter(new_cases == max(new_cases))
+```  
+
+> In Wuhan, China, the city where the virus was born, a mass lockdown was also imposed. This happened in late February, before the rest of the world got badly affected. Authorities went door-to-door for health checks - forcibly isolating every resident displaying even the mildest possible symptoms. Drones could be seen hovering around the city, yelling at people to get inside their homes. There were mandatory phone apps that were able to color code people based on their contagion risk. 
+
+> The rest of China followed the same measures imposed in Wuhan, which is just what resulted in the flattening of the curve. "China's response to the outbreak was truly a nationwide response: systematic, comprehensive and coordinated."
+
+> The visualizations above show some very interesting trends. First off, on February 13, China saw 15,141 new cases in a day. That is highest number of cases recorded in a single day in China. However, if you look at the rest of the second visualization, you can see that after March, the country was practicallu COVID free. 
+
+> The city of Wuhan and the entire province of Hubei, where Wuhan is located, found itself in absolute lockdown mode from January 23rd to April 8. Nobody was allowed out of their homes other than for essential trips like grocery shopping or medical trips. 
+
+> 11 million people in Wuhan were on lockdown, along with an additional 57 million across China. The Chinese government took some of the strictest measures out of any other countries in the world, and that is why after March, there was an astonishing decrease in daily cases, until none were able to be seen anymore. 
+
+## Japan 
 
 ```{r}
-uae <- covid_stats_ty %>% filter(country == "United Arab Emirates")
+japan <- 
+  covid_stats_ty %>% 
+  filter(country == "Japan")
 ```
 
-# Japan 
-
-```{r}
-japan <- covid_stats_ty %>% filter(country == "Japan")
-```
-
-# South Korea 
+## South Korea 
 
 ```{r}
 southkorea <- 
@@ -156,6 +178,59 @@ southkorea <-
   filter(country == "South Korea")
 ```
 
+# Contrast that to the badly affected countries
 
+> For our analysis, we are looking at the countries which had frighteningly high number of cases per day, and a high death rate, which is measured by diving the number of total deaths by total number of cases: 
 
+* USA
+* Iran
+* Brazil
 
+> This is a visualization that compares some of the least affected countries with the United States, based on actual data so far.  
+
+```{r}
+covid_stats_ty <- 
+  covid_stats %>% 
+  filter(location == "United States"
+         | location == "New Zealand"
+         | location == "Brazil"
+         | location == "Japan"
+         | location == "Iran"
+         | location == "South Korea"
+         | location == "China") %>% 
+  select(location, continent, 
+         date, total_cases, 
+         new_cases, total_deaths, 
+         new_deaths, total_tests, 
+         population, gdp_per_capita, 
+         human_development_index)
+
+badly_affected <- 
+  covid_stats_ty %>% 
+  filter(location == "New Zealand" 
+         | location == "United States" 
+         | location == "China" 
+         | location == "South Korea")
+
+ggplot(data = badly_affected) + geom_line(mapping = aes(x = date, y = total_cases, color = location))
+```
+
+# What if we were able to apply the same measures taken in those countries, to the US and the rest of the world?  
+
+> The United States and South Korea both saw their first cases on the same day, January 20. However, South Korea imposed strict measures much earlier and quicker than the US did. The earliest US States to hav had a confirmed case are Washington, New York and California. 
+
+> Applying the infection rate in South Korea to those initial states, how would that have impacted the rest of the US?
+
+```{r, message=FALSE, warning=FALSE}
+US_by_state <- 
+  read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv") 
+
+US_by_state <- 
+  US_by_state %>% 
+  select(date, state, cases, deaths)
+
+US_by_state <- 
+  US_by_state %>%
+  group_by(state) %>% 
+  summarise(total_cases = max(cases))
+```
