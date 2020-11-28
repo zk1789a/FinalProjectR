@@ -6,11 +6,7 @@ output:
 ---
 
 ```{r, echo=FALSE, message=FALSE}
-install.packages("tidyverse")
 library(tidyverse)
-
-install.packages("lubridate")
-library(lubridate)
 ```
 
 > Project Members: Mamayaa Opoku, Yoshimune Satake, Zeyd Khalil
@@ -46,7 +42,7 @@ library(lubridate)
 7. South Korea
 
 ```{r, warning=FALSE, message=FALSE}
-covid_stats <- read.csv("/Users/zkhalil.19/Desktop/owid-covid-data-actual.csv")
+covid_stats <- read_csv("/Users/zkhalil.19/Desktop/owid-covid-data-actual.csv")
 ```  
 
 ```{r}
