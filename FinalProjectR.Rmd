@@ -6,7 +6,11 @@ output:
 ---
 
 ```{r, echo=FALSE, message=FALSE}
+install.packages("tidyverse")
 library(tidyverse)
+
+install.packages("lubridate")
+library(lubridate)
 ```
 
 > Project Members: Mamayaa Opoku, Yoshimune Satake, Zeyd Khalil
@@ -42,7 +46,7 @@ library(tidyverse)
 7. South Korea
 
 ```{r, warning=FALSE, message=FALSE}
-covid_stats <- read_csv("/Users/zkhalil.19/Desktop/owid-covid-data-actual.csv")
+covid_stats <- read.csv("/Users/zkhalil.19/Desktop/owid-covid-data-actual.csv")
 ```  
 
 ```{r}
@@ -50,17 +54,14 @@ covid_stats_ty <-
   covid_stats %>% 
   filter(location == "United States"
          | location == "New Zealand"
-         | location == "Brazil"
          | location == "Japan"
-         | location == "Iran"
          | location == "South Korea"
          | location == "China") %>% 
   select(location, continent, 
          date, total_cases, 
          new_cases, total_deaths, 
          new_deaths, total_tests, 
-         population, gdp_per_capita, 
-         human_development_index)
+         population)
 
 covid_stats_ty <- 
   covid_stats_ty %>% 
@@ -221,16 +222,103 @@ ggplot(data = badly_affected) + geom_line(mapping = aes(x = date, y = total_case
 
 > Applying the infection rate in South Korea to those initial states, how would that have impacted the rest of the US?
 
+> Let's import the US COVID dataset
+
 ```{r, message=FALSE, warning=FALSE}
 US_by_state <- 
   read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv") 
 
-US_by_state <- 
+US <- 
   US_by_state %>% 
-  select(date, state, cases, deaths)
+  select(date, state, cases, deaths) %>% 
+  group_by(date, state) %>% 
+  summarize(total_cases = sum(cases))
+```
 
-US_by_state <- 
-  US_by_state %>%
-  group_by(state) %>% 
-  summarise(total_cases = max(cases))
+> Here, we made new datasets that show the number of cases in South Korea, New Zealand, China, New York, Washington and California on their 60th, 90th and 120th days. 
+
+```{r}
+daycount <- 
+  c("Day 60", 
+    "Day 90", 
+    "Day 120")
+
+southkorea_fourmonths <- 
+  head(southkorea, 120)
+
+newzealand_fourmonths <- 
+  head(newzealand, 120)
+
+china_fourmonths <- 
+  head(china, 120)
+```
+
+```{r}
+newyork <- 
+  US %>% 
+  filter(state == "New York")
+
+washington <- 
+  US %>% 
+  filter(state == "Washington")
+
+california <- 
+  US %>% 
+  filter(state == "California")
+```
+
+```{r}
+newyork <- 
+  newyork %>%
+  head(120)
+
+washington <- 
+  washington %>%
+  head(120)
+
+california <- 
+  california %>%
+  head(120)
+``` 
+
+```{r}
+newyork_fourmonths <- 
+  newyork %>% 
+  slice(60, 90, 120)
+
+washington_fourmonths <- 
+  washington %>% 
+  slice(60, 90, 120)
+
+california_fourmonths <- 
+  california %>% 
+  slice(60, 90, 120)
+```  
+
+> Now, let's visualize our data
+
+```{r}
+china_fourmonths %>% 
+  ggplot(aes(date, total_cases)) + 
+  geom_line()
+
+southkorea_fourmonths %>% 
+  ggplot(aes(date, total_cases)) + 
+  geom_line()
+
+newzealand_fourmonths %>% 
+  ggplot(aes(date, total_cases)) + 
+  geom_line()
+
+newyork %>% 
+  ggplot(aes(date, total_cases)) + 
+  geom_line()
+
+washington %>% 
+  ggplot(aes(date, total_cases)) + 
+  geom_line()
+
+california %>% 
+  ggplot(aes(date, total_cases)) + 
+  geom_line()
 ```
