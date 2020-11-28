@@ -50,7 +50,6 @@ covid_stats_ty <-
   covid_stats %>% 
   filter(location == "United States"
          | location == "New Zealand"
-         | location == "Japan"
          | location == "South Korea"
          | location == "China") %>% 
   select(location, continent, 
@@ -159,14 +158,6 @@ china %>% filter(new_cases == max(new_cases))
 
 > 11 million people in Wuhan were on lockdown, along with an additional 57 million across China. The Chinese government took some of the strictest measures out of any other countries in the world, and that is why after March, there was an astonishing decrease in daily cases, until none were able to be seen anymore. 
 
-## Japan 
-
-```{r}
-japan <- 
-  covid_stats_ty %>% 
-  filter(country == "Japan")
-```
-
 ## South Korea 
 
 ```{r}
@@ -177,39 +168,17 @@ southkorea <-
 
 # Contrast that to the badly affected countries
 
-> For our analysis, we are looking at the countries which had frighteningly high number of cases per day, and a high death rate, which is measured by diving the number of total deaths by total number of cases: 
-
-* USA
-* Iran
-* Brazil
-
 > This is a visualization that compares some of the least affected countries with the United States, based on actual data so far.  
 
 ```{r}
-covid_stats_ty <- 
-  covid_stats %>% 
-  filter(location == "United States"
-         | location == "New Zealand"
-         | location == "Brazil"
-         | location == "Japan"
-         | location == "Iran"
-         | location == "South Korea"
-         | location == "China") %>% 
-  select(location, continent, 
-         date, total_cases, 
-         new_cases, total_deaths, 
-         new_deaths, total_tests, 
-         population, gdp_per_capita, 
-         human_development_index)
-
 badly_affected <- 
   covid_stats_ty %>% 
-  filter(location == "New Zealand" 
-         | location == "United States" 
-         | location == "China" 
-         | location == "South Korea")
+  filter(country == "New Zealand" 
+         | country == "United States" 
+         | country == "China" 
+         | country == "South Korea")
 
-ggplot(data = badly_affected) + geom_line(mapping = aes(x = date, y = total_cases, color = location))
+ggplot(data = badly_affected) + geom_line(mapping = aes(x = date, y = total_cases, color = country))
 ```
 
 # What if we were able to apply the same measures taken in those countries, to the US and the rest of the world?  
@@ -317,4 +286,44 @@ washington %>%
 california %>% 
   ggplot(aes(date, total_cases)) + 
   geom_line()
+```
+
+```{r}
+State_Country = c("South Korea")
+Population = c(max(southkorea$population))
+Day_30_cases <- c(southkorea[30,]$total_cases)
+Per_population_30 <- c((Day_30_cases / Population) * 100)
+Day_120_cases <- c(southkorea[120,]$total_cases)
+Per_population_120 <- c((Day_120_cases / Population) * 100)
+
+as_is_korea <- tibble(State_Country, 
+                Population, 
+                Day_30_cases, 
+                Per_population_30, 
+                Day_120_cases, 
+                Per_population_120)
+
+as_is_korea
+```
+
+```{r}
+State_Country = c("New York")
+Population = c(19450000)
+Day_30_cases <- c(newyork[30,]$total_cases)
+Per_population_30 <- c((Day_30_cases / Population) * 100)
+Day_120_cases <- c(newyork[120,]$total_cases)
+Per_population_120 <- c((Day_120_cases / Population) * 100)
+Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
+Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
+
+as_is_ny <- tibble(State_Country, 
+                Population, 
+                Day_30_cases, 
+                Per_population_30, 
+                Day_120_cases, 
+                Per_population_120, 
+                Day_30_whatif, 
+                Day_120_whatif)
+
+as_is_ny
 ```
