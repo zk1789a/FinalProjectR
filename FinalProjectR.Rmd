@@ -164,8 +164,6 @@ southkorea <-
   covid_stats_ty %>% 
   filter(country == "South Korea", 
          total_cases != 0)
-
-
 ```
 
 > The visualization above shows us the total cases in relation with time. Currently, there seems to be a second yet, smaller wave of cases. Between March and September, however, the curve seems to have been flattened as a result of the measures South Korea has taken. 
@@ -199,11 +197,13 @@ badly_affected <-
 ggplot(data = badly_affected) + geom_line(mapping = aes(x = date, y = total_cases, color = country))
 ```
 
-# 
+> The United States and South Korea both saw their first cases on the same day, January 20. However, South Korea imposed strict measures much earlier and quicker than the US did. The earliest US States to have had a confirmed case are Washington, New York and California. 
 
-> The United States and South Korea both saw their first cases on the same day, January 20. However, South Korea imposed strict measures much earlier and quicker than the US did. The earliest US States to hav had a confirmed case are Washington, New York and California. 
+## Applying the infection rate in South Korea to those initial states, would we have seen a better impact in the US? That was the basis for our next analysis:
 
-> Applying the infection rate in South Korea to those initial states, how would that have impacted the rest of the US?
+* Calculated the ratio of South Korea for cases per population on the 30th and 120th day.
+* Applied that ratio to the 3 states where the first cases were recorded in the US.
+* Compared our actual findings ("As-Is"), with our applied findings ("What-If").
 
 > Let's import the US COVID dataset
 
