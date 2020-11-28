@@ -164,6 +164,9 @@ southkorea <-
   covid_stats_ty %>% 
   filter(country == "South Korea", 
          total_cases != 0)
+
+ggplot(southkorea, aes(date, total_cases)) + 
+  geom_line()
 ```
 
 > The visualization above shows us the total cases in relation with time. Currently, there seems to be a second yet, smaller wave of cases. Between March and September, however, the curve seems to have been flattened as a result of the measures South Korea has taken. 
@@ -197,6 +200,20 @@ badly_affected <-
 ggplot(data = badly_affected) + geom_line(mapping = aes(x = date, y = total_cases, color = country))
 ```
 
+> Now, let's take a look at the examples of the 3 countries that followed roughly the same measues. 
+
+```{r}
+good_countries <- 
+  covid_stats_ty %>% 
+  filter(country == "New Zealand" 
+         | country == "China" 
+         | country == "South Korea")
+
+ggplot(data = good_countries) + geom_line(mapping = aes(x = date, y = total_cases, color = country))
+```
+
+> We see that as a result of firm and early actions, each country appears to see similar results. 
+
 > The United States and South Korea both saw their first cases on the same day, January 20. However, South Korea imposed strict measures much earlier and quicker than the US did. The earliest US States to have had a confirmed case are Washington, New York and California. 
 
 ## Applying the infection rate in South Korea to those initial states, would we have seen a better impact in the US? That was the basis for our next analysis:
@@ -222,10 +239,14 @@ US <-
 
 ```{r}
 southkorea_fourmonths <- 
-  head(southkorea, 120)
+  southkorea %>% 
+  filter(total_cases != 0) %>%
+  head(120)
 
 newzealand_fourmonths <- 
-  head(newzealand, 120)
+  newzealand %>% 
+  filter(total_cases != 0)
+  head(120)
 
 china_fourmonths <- 
   head(china, 120)
@@ -262,18 +283,6 @@ california <-
 > Now that we have our New York, Washington and California dataset, let's make some visualizations from those datasets. 
 
 ```{r}
-china_fourmonths %>% 
-  ggplot(aes(date, total_cases)) + 
-  geom_line()
-
-southkorea_fourmonths %>% 
-  ggplot(aes(date, total_cases)) + 
-  geom_line()
-
-newzealand_fourmonths %>% 
-  ggplot(aes(date, total_cases)) + 
-  geom_line()
-
 newyork %>% 
   ggplot(aes(date, total_cases)) + 
   geom_line()
@@ -305,26 +314,28 @@ as_is_korea <- tibble(Day_30_cases,
 as_is_korea
 ```
 
+> The Per_population 30 and 120 represent the total number of cases on the 30th and 120th days since first recorded case divided by total population, in South Korea. 
+
 ## Assuming New York, Washington and California each took the same exact measures as South Korea and ended up having the same cases to population ratio, what would have their numbers looked like on their 30th and 120th day?
 
 ### South Korea measures applied in New York
 
 ```{r}
-State_Country = c("New York")
-Population = c(19450000)
-Day_30_cases <- c(newyork[30,]$total_cases)
-Per_population_30 <- c((Day_30_cases / Population) * 100)
-Day_120_cases <- c(newyork[120,]$total_cases)
-Per_population_120 <- c((Day_120_cases / Population) * 100)
-Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
-Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
+State = c("New York")
+Pop = c(19450000)
+D30_cases <- c(newyork[30,]$total_cases)
+pp_30 <- c((D30_cases / Pop) * 100)
+D120_cases <- c(newyork[120,]$total_cases)
+pp_120 <- c((D120_cases / Pop) * 100)
+D30_wif <- (as_is_korea$Per_population_30 * Pop) / 100
+D120_wif <- (as_is_korea$Per_population_120 * Pop) / 100
 
-as_is_whatif_ny <- tibble(Day_30_cases, 
-                Per_population_30, 
-                Day_120_cases, 
-                Per_population_120, 
-                Day_30_whatif, 
-                Day_120_whatif)
+as_is_whatif_ny <- tibble(D30_cases, 
+                pp_30, 
+                D120_cases, 
+                pp_120, 
+                D30_wif, 
+                D120_wif)
 
 as_is_whatif_ny
 ```
