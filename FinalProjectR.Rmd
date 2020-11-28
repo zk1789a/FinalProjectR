@@ -29,17 +29,12 @@ library(tidyverse)
 
 > Applying those strict measures onto the rest of world, we saw astonishing results, which included lower cases and deaths rates. 
 
-> Our analysis showed us that we could have saved _x_ people. We therefore see the need for immediate plan to be ready for a coordinated plan for the future. 
-
-# We studied 7 different countries for this project: 
+# We studied 4 different countries for this project: 
 
 1. China
 2. USA
-3. Iran
-4. New Zealand
-5. Japan
-6. Brazil
-7. South Korea
+3. New Zealand
+4. South Korea
 
 ```{r, warning=FALSE, message=FALSE}
 covid_stats <- read_csv("/Users/zkhalil.19/Desktop/owid-covid-data-actual.csv")
@@ -160,13 +155,36 @@ china %>% filter(new_cases == max(new_cases))
 
 ## South Korea 
 
+#### This information can be found at https://english.alarabiya.net/en/features/2020/04/03/South-Korea-conquered-coronavirus-without-a-lockdown-a-model-to-follow-
+
+> South Korea is a country that had its first case the same day as the US. 
+
 ```{r}
 southkorea <- 
   covid_stats_ty %>% 
-  filter(country == "South Korea")
+  filter(country == "South Korea", 
+         total_cases != 0)
+
+
 ```
 
-# Contrast that to the badly affected countries
+> The visualization above shows us the total cases in relation with time. Currently, there seems to be a second yet, smaller wave of cases. Between March and September, however, the curve seems to have been flattened as a result of the measures South Korea has taken. 
+
+> Initially, South Korea was seen as a potential epicenter of the virus throughout the year, just like Italy or Spain, but the country had a strategy to prevent the spread of COVID-19. 
+
+> Just one after January 20, the day South Korea recorded its first case, the government ordered factories to start producing coronavirys test kits en masse. Within two weeks, the country was producing more than 100,000 test kits a day.  
+
+> South Korea's rapid response to the virus by mass testing is one of the things that helped the country have very high control over the prevention of its spread. The mass manufacturing of tests allowed the government to successfully test significant parts of the population for coronavirus, rolling out over 600 testing centers and making testing easy and available. This mass of data allowed authorities to monitor the spread of the virus and treat those with it.  
+
+> Another reason why South Korea did not end suffering nearly as much as other countries is because it applied lessons learned from the 2015 MERS outbreak, which killed 36 people. Rather than rely on people with symptoms volunteering to be tested, authorities took a proactive approach which helped identify cases without symptoms which may have otherwise gone on to spread the virus further.  
+
+> The government of South Korea made information about the spread of the virus very public, which concerned the population, which allowed both governments and citizens to act effectively and responsibly to slow the spread of the virus – without authorities having to enforce overbearing nationwide regulations or shut down the economy.
+
+> According to the source, residents had access to a live map where they could see all the information on a live tracking system. They could track people via their credit card and CCTV to see exactly where they have been. 
+
+> This is why South Korea did not end up having a nationwide lockdown, and as a result, it was able to avoid an economic crash. 
+
+# Contrast that to the US
 
 > This is a visualization that compares some of the least affected countries with the United States, based on actual data so far.  
 
@@ -181,7 +199,7 @@ badly_affected <-
 ggplot(data = badly_affected) + geom_line(mapping = aes(x = date, y = total_cases, color = country))
 ```
 
-# What if we were able to apply the same measures taken in those countries, to the US and the rest of the world?  
+# 
 
 > The United States and South Korea both saw their first cases on the same day, January 20. However, South Korea imposed strict measures much earlier and quicker than the US did. The earliest US States to hav had a confirmed case are Washington, New York and California. 
 
@@ -200,14 +218,9 @@ US <-
   summarize(total_cases = sum(cases))
 ```
 
-> Here, we made new datasets that show the number of cases in South Korea, New Zealand, China, New York, Washington and California on their 60th, 90th and 120th days. 
+> Here, we made new datasets that show the number of cases in South Korea, New Zealand, China, New York, Washington and California during the first 120 days since each of their first recorded cases.  
 
 ```{r}
-daycount <- 
-  c("Day 60", 
-    "Day 90", 
-    "Day 120")
-
 southkorea_fourmonths <- 
   head(southkorea, 120)
 
@@ -246,21 +259,7 @@ california <-
   head(120)
 ``` 
 
-```{r}
-newyork_fourmonths <- 
-  newyork %>% 
-  slice(60, 90, 120)
-
-washington_fourmonths <- 
-  washington %>% 
-  slice(60, 90, 120)
-
-california_fourmonths <- 
-  california %>% 
-  slice(60, 90, 120)
-```  
-
-> Now, let's visualize our data
+> Now that we have our New York, Washington and California dataset, let's make some visualizations from those datasets. 
 
 ```{r}
 china_fourmonths %>% 
@@ -288,6 +287,8 @@ california %>%
   geom_line()
 ```
 
+## Here's what the numbers looked like in South Korea on its 30th and 120th: 
+
 ```{r}
 State_Country = c("South Korea")
 Population = c(max(southkorea$population))
@@ -296,15 +297,17 @@ Per_population_30 <- c((Day_30_cases / Population) * 100)
 Day_120_cases <- c(southkorea[120,]$total_cases)
 Per_population_120 <- c((Day_120_cases / Population) * 100)
 
-as_is_korea <- tibble(State_Country, 
-                Population, 
-                Day_30_cases, 
+as_is_korea <- tibble(Day_30_cases, 
                 Per_population_30, 
                 Day_120_cases, 
                 Per_population_120)
 
 as_is_korea
 ```
+
+## Assuming New York, Washington and California each took the same exact measures as South Korea and ended up having the same cases to population ratio, what would have their numbers looked like on their 30th and 120th day?
+
+### South Korea measures applied in New York
 
 ```{r}
 State_Country = c("New York")
@@ -316,14 +319,88 @@ Per_population_120 <- c((Day_120_cases / Population) * 100)
 Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
 Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
 
-as_is_ny <- tibble(State_Country, 
-                Population, 
-                Day_30_cases, 
+as_is_whatif_ny <- tibble(Day_30_cases, 
                 Per_population_30, 
                 Day_120_cases, 
                 Per_population_120, 
                 Day_30_whatif, 
                 Day_120_whatif)
 
-as_is_ny
+as_is_whatif_ny
 ```
+
+> This data shows us that had the state of New York taken the same measures as South Korea, there only would've been 4079 cases by the 120th day since New York saw its first case. 
+
+### South Korea measures applied in California
+
+```{r}
+State_Country = c("California")
+Population = c(39510000)
+Day_30_cases <- c(california[30,]$total_cases)
+Per_population_30 <- c((Day_30_cases / Population) * 100)
+Day_120_cases <- c(california[120,]$total_cases)
+Per_population_120 <- c((Day_120_cases / Population) * 100)
+Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
+Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
+
+as_is_whatif_ca <- tibble(Day_30_cases, 
+                 Per_population_30, 
+                 Day_120_cases, 
+                 Per_population_120, 
+                 Day_30_whatif, 
+                 Day_120_whatif)
+
+as_is_whatif_ca
+```
+
+> This data shows us that had the state of California taken the same measures as South Korea, there only would've been 8286 cases by the 120th day since California saw its first case. 
+
+### South Korea measures applied in Washington
+
+```{r}
+State_Country = c("Washington")
+Population = c(7615000)
+Day_30_cases <- c(washington[30,]$total_cases)
+Per_population_30 <- c((Day_30_cases / Population) * 100)
+Day_120_cases <- c(washington[120,]$total_cases)
+Per_population_120 <- c((Day_120_cases / Population) * 100)
+Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
+Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
+
+as_is_whatif_wa <- tibble(Day_30_cases, 
+                 Per_population_30, 
+                 Day_120_cases, 
+                 Per_population_120, 
+                 Day_30_whatif, 
+                 Day_120_whatif)
+
+as_is_whatif_wa
+```
+
+> This data shows us that had the state of Washington taken the same measures as South Korea, there only would've been 1597 cases by the 120th day since Washington saw its first case. 
+
+## Since New York, Washington and California were some of the first major states that recorded cases in the country and are used as travel hubs to travel across the US, let's assume that their numbers determine the case count across the US. 
+
+```{r}
+US_ <- US %>% group_by(date) %>% summarize(cases_that_day = sum(total_cases)) %>% head(120)
+
+State_Country = c("United States")
+Population = c(328200000)
+Day_30_cases <- c(US_[30,]$cases_that_day)
+Per_population_30 <- c((Day_30_cases / Population) * 100)
+Day_120_cases <- c(US_[120,]$cases_that_day)
+Per_population_120 <- c((Day_120_cases / Population) * 100)
+Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
+Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
+
+as_is_whatif_us <- tibble(State_Country, 
+                 Day_30_cases, 
+                 Per_population_30, 
+                 Day_120_cases, 
+                 Per_population_120, 
+                 Day_30_whatif, 
+                 Day_120_whatif)
+
+as_is_whatif_us
+```  
+
