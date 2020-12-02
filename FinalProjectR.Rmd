@@ -1,7 +1,8 @@
 ---
-title: "The world needs bettwe coordination to deal with pandemics"
+title: "Immediate Measures in the First 30 days saves lives."
 output:
   pdf_document: default
+  word_document: default
   html_document: default
 ---
 
@@ -13,19 +14,19 @@ library(tidyverse)
 
 # Introduction 
 
-> A **Coordinated response** on a global scale is essential to facing this pandemic and any other pandemic to come in the future. Our data analysis of COVID-19 shows, with reasonable confidence, that the world with a coordinated response would have dealth mcuh bettwe with COVID-19 by now.
+> A **Coordinated response** on a global scale is essential to facing this pandemic and any other pandemic to come in the future. Our data analysis of COVID-19 shows, with reasonable confidence, that the world with a coordinated response would have dealth much better with COVID-19 by now.
 
 # Abstract
 
-> In December 2019, the world was hit by a global pandemic known as **COVID-19**, which stands for Corona Virus Disease 2019. As of today, over **1.5 million people around the world lost their lives**, 250,000 of which where Americans. A lot of people also lost their jobs as economies started to suffer, and schools and universities were left shutdown, leaving students feel isolated from their friends and normal life. 
+> In December 2019, the world was hit by a global pandemic known as **COVID-19**, which stands for Corona Virus Disease 2019. As of today, over **1.5 million people around the world lost their lives**, 250,000 of which are Americans. A lot of people also lost their jobs as economies started to suffer, and schools and universities were left shutdown, leaving students feel isolated from their friends and normal life. 
 
 > Some countries suffered more than others from COVID-19, and some countries appeared to have little or no impact from this pandemic. The ones that suffered had a **stricter measures** such as nationwide lockdowns, mass testing, and early measures. The countries that suffered more appeared to have followed different measures. 
 
-> There was no coordinated response, which is what resulted in mass lockdowns, and economies to shutdown. 
+> There was no coordinated response, which is what resulted in mass lockdowns, and economies to shutdown. This is because each country seemed to have followed its own plan. 
 
 > Looking at this situation, we wanted to evaluate what the outcome would have been, had we globally acted in a coordinated fashion. 
 
-> For that, we selected a group of "reference" countries where the case and death rates are low. These countries include New Zealand, China, Japan and South Korea. **What if we applied the measures taken in these countries onto badly affected countries?** 
+> For that, we selected a group of "reference" countries where the case and death rates are low. **What if we applied the measures taken in these countries onto badly affected countries?** 
 
 > Applying those strict measures onto the rest of world, we saw astonishing results, which included lower cases and deaths rates. 
 
@@ -66,20 +67,19 @@ covid_stats_ty <-
 * Imposed restrictions - mandatory mask laws, total lockdown, contact tracing. 
 * What the numbers look like today - death rate and new cases rate. 
 
-## Let's take a look at some of the countries that meet those metrics: 
-
-* New Zealand 
-* China
-* Japan
-* South Korea
-
-> According to the National News (https://www.thenationalnews.com/uae/health/coronavirus-uae-ranks-high-for-covid-19-response-in-global-league-table-1.1032167), South Korea, China, Japan and New Zealand were ranked 3rd, 5th, 6th and 9th (respectively) in the top 20 countries safest countries in the world from COVID-19. 
+> According to the National News (https://www.thenationalnews.com/uae/health/coronavirus-uae-ranks-high-for-covid-19-response-in-global-league-table-1.1032167), South Korea, China and New Zealand were ranked 3rd, 5th and 9th (respectively) in the top 20 countries safest countries in the world from COVID-19. 
 
 ## New Zealand 
 
 #### This information can be found in the following website: https://www.contagionlive.com/view/how-did-new-zealand-control-covid19  
 
 > New Zealand is an isolated island nation in the South Pacific, comprised of a little under 5 million people, which is about the same population as the state of Alabama. This small country has become an emblematic champion of proper prevention and response to COVID-19. 
+
+> New Zealand only saw a little over 2,000 total cases since February 26, which was the day the country saw its first case. A countrywide lockdown was imposed exactly a month later, on March 26, after having seen that there was a lack of testing and contact-tracing capability. The lockdown included a stay-at-home order, and unless it was for essential purposes, nobody was allowed out of their homes. 
+
+> After 5 weeks, New Zealand started seeing its new cases rate decline rapidly, which resulted them moving from Alert 4 to Alert 3, which are ways to measure how critical their measures need to be, given the numbers. The country only imposed an extra 2 weeks of lockdown after that. 
+
+> In early May, the last observed COVID-19 case was identified in New Zealand. The patient was isolated, and eventually recovered. By June 8, 103 days after their first case, they had moved to Alert 1 and declared the pandemic over in the country. 
 
 ```{r}
 newzealand <- covid_stats_ty %>% filter(country == "New Zealand")
@@ -102,12 +102,6 @@ ggplot(newzealand, aes(x = date, y = new_deaths)) + geom_bar(stat = "identity")
 > The second visualization shows us that the months that saw the highest spike in new cases per day tended to be in March and April as well.
 
 > The third and fourth visualizations use the same metrics for the recorded COVID-19 deaths in New Zealand. It shows that only 25 people died. 
-
-> New Zealand only saw a little over 2,000 total cases since February 26, which was the day the country saw its first case. A countrywide lockdown was imposed exactly a month later, on March 26, after having seen that there was a lack of testing and contact-tracing capability. The lockdown included a stay-at-home order, and unless it was for essential purposes, nobody was allowed out of their homes. 
-
-> After 5 weeks, New Zealand started seeing its new cases rate decline rapidly, which resulted them moving from Alert 4 to Alert 3, which are ways to measure how critical their measures need to be, given the numbers. The country only imposed an extra 2 weeks of lockdown after that. 
-
-> In early May, the last observed COVID-19 case was identified in New Zealand. The patient was isolated, and eventually recovered. By June 8, 103 days after their first case, they had moved to Alert 1 and declared the pandemic over in the country. 
 
 ```{r}
 newzealand %>% filter(new_cases == max(new_cases, na.rm = TRUE))
@@ -233,6 +227,17 @@ US <-
   select(date, state, cases, deaths) %>% 
   group_by(date, state) %>% 
   summarize(total_cases = sum(cases))
+
+uid_lookup_url <- 
+  "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/UID_ISO_FIPS_LookUp_Table.csv"
+
+uid <- read_csv(uid_lookup_url)
+
+US_Populations <- 
+  uid %>% 
+  filter(Country_Region == "US") %>% 
+  select(Province_State, Population) %>%
+  slice(89:139)
 ```
 
 > Here, we made new datasets that show the number of cases in South Korea, New Zealand, China, New York, Washington and California during the first 120 days since each of their first recorded cases.  
@@ -255,30 +260,19 @@ china_fourmonths <-
 ```{r}
 newyork <- 
   US %>% 
-  filter(state == "New York")
+  filter(state == "New York") %>%
+  head(120)
 
 washington <- 
   US %>% 
-  filter(state == "Washington")
+  filter(state == "Washington") %>%
+  head(120)
 
 california <- 
   US %>% 
-  filter(state == "California")
+  filter(state == "California") %>%
+  head(120)
 ```
-
-```{r}
-newyork <- 
-  newyork %>%
-  head(120)
-
-washington <- 
-  washington %>%
-  head(120)
-
-california <- 
-  california %>%
-  head(120)
-``` 
 
 > Now that we have our New York, Washington and California dataset, let's make some visualizations from those datasets. 
 
@@ -322,7 +316,7 @@ as_is_korea
 
 ```{r}
 State = c("New York")
-Pop = c(19450000)
+Pop = US_Populations[33,]$Population
 D30_cases <- c(newyork[30,]$total_cases)
 pp_30 <- c((D30_cases / Pop) * 100)
 D120_cases <- c(newyork[120,]$total_cases)
@@ -345,21 +339,21 @@ as_is_whatif_ny
 ### South Korea measures applied in California
 
 ```{r}
-State_Country = c("California")
-Population = c(39510000)
-Day_30_cases <- c(california[30,]$total_cases)
-Per_population_30 <- c((Day_30_cases / Population) * 100)
-Day_120_cases <- c(california[120,]$total_cases)
-Per_population_120 <- c((Day_120_cases / Population) * 100)
-Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
-Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
+State = c("California")
+Pop = US_Populations[5,]$Population
+D30_cases <- c(california[30,]$total_cases)
+pp_30 <- c((D30_cases / Pop) * 100)
+D120_cases <- c(california[120,]$total_cases)
+pp_120 <- c((D120_cases / Pop) * 100)
+D30_wif <- (as_is_korea$Per_population_30 * Pop) / 100
+D120_wif <- (as_is_korea$Per_population_120 * Pop) / 100
 
-as_is_whatif_ca <- tibble(Day_30_cases, 
-                 Per_population_30, 
-                 Day_120_cases, 
-                 Per_population_120, 
-                 Day_30_whatif, 
-                 Day_120_whatif)
+as_is_whatif_ca <- tibble(D30_cases, 
+                pp_30, 
+                D120_cases, 
+                pp_120, 
+                D30_wif, 
+                D120_wif)
 
 as_is_whatif_ca
 ```
@@ -369,23 +363,23 @@ as_is_whatif_ca
 ### South Korea measures applied in Washington
 
 ```{r}
-State_Country = c("Washington")
-Population = c(7615000)
-Day_30_cases <- c(washington[30,]$total_cases)
-Per_population_30 <- c((Day_30_cases / Population) * 100)
-Day_120_cases <- c(washington[120,]$total_cases)
-Per_population_120 <- c((Day_120_cases / Population) * 100)
-Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
-Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
+State = c("Washington")
+Pop = US_Populations[48,]$Population
+D30_cases <- c(washington[30,]$total_cases)
+pp_30 <- c((D30_cases / Pop) * 100)
+D120_cases <- c(washington[120,]$total_cases)
+pp_120 <- c((D120_cases / Pop) * 100)
+D30_wif <- (as_is_korea$Per_population_30 * Pop) / 100
+D120_wif <- (as_is_korea$Per_population_120 * Pop) / 100
 
-as_is_whatif_wa <- tibble(Day_30_cases, 
-                 Per_population_30, 
-                 Day_120_cases, 
-                 Per_population_120, 
-                 Day_30_whatif, 
-                 Day_120_whatif)
+as_is_whatif_ca <- tibble(D30_cases, 
+                pp_30, 
+                D120_cases, 
+                pp_120, 
+                D30_wif, 
+                D120_wif)
 
-as_is_whatif_wa
+as_is_whatif_ca
 ```
 
 > This data shows us that had the state of Washington taken the same measures as South Korea, there only would've been 1597 cases by the 120th day since Washington saw its first case. 
@@ -395,23 +389,31 @@ as_is_whatif_wa
 ```{r}
 US_ <- US %>% group_by(date) %>% summarize(cases_that_day = sum(total_cases)) %>% head(120)
 
-State_Country = c("United States")
-Population = c(328200000)
-Day_30_cases <- c(US_[30,]$cases_that_day)
-Per_population_30 <- c((Day_30_cases / Population) * 100)
-Day_120_cases <- c(US_[120,]$cases_that_day)
-Per_population_120 <- c((Day_120_cases / Population) * 100)
-Day_30_whatif <- (as_is_korea$Per_population_30 * Population) / 100
-Day_120_whatif <- (as_is_korea$Per_population_120 * Population) / 100
+Country = c("United States")
+Pop = c(covid_stats_ty[1128,]$population)
+D30_cases <- c(US_[30,]$cases_that_day)
+pp_30 <- c((D30_cases / Pop) * 100)
+D120_cases <- c(US_[120,]$cases_that_day)
+pp_120 <- c((D120_cases / Pop) * 100)
+D30_wif <- (as_is_korea$Per_population_30 * Pop) / 100
+D120_wif <- (as_is_korea$Per_population_120 * Pop) / 100
 
-as_is_whatif_us <- tibble(State_Country, 
-                 Day_30_cases, 
-                 Per_population_30, 
-                 Day_120_cases, 
-                 Per_population_120, 
-                 Day_30_whatif, 
-                 Day_120_whatif)
+as_is_whatif_us <- tibble(D30_cases, 
+                pp_30, 
+                D120_cases, 
+                pp_120, 
+                D30_wif, 
+                D120_wif)
 
 as_is_whatif_us
 ```  
 
+> This data shows us that had California, New York and Washington prevented the spread of the virus within each state by using the same measures as South Korea, given that these three states are considered some of the most influential ones for the spread in the rest of the country, the US would've seen 71,437 cases by the 120th day, instead of over 1.5 million cases, which represents a whopping 95.35% less of the number of cases in the US by the 120th day since the country first recorded a case. 
+
+# Conclusion
+
+> From what the data shows us, the main problem with the way COVID-19 was handled is that nations around the world did not all agree to use the same measures. As we've seen applying South Korea's measures to the United States in order of yielding a "What If" condition, other badly affected countries like Italy, Iran, Brazil, and Spain wouldn't have suffered as much as they did. 
+
+> Per our data, 1.45 million American's could've avoided contracted the virus in the span of about 4 months. 
+
+> This is why all countries around the world should've set a standardized and coordinated response in preventing the spread of COVID-19, and those few countries that actually had a rigorous response should be seen as worldwide examples, for any future pandemic to come. 
